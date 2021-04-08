@@ -58,6 +58,16 @@ sudo sh /path/to/simple-zapp-config.sh
 sudo sh /path/to/simple-zapp-config.sh ~"/cacerts"
 ```
 
+There is also an _uninstall_ script available to "undo" the simple-zapp-config
+
+[uninstall-zapp-config.sh](https://github.com/andy-cheatwood/zscaler/blob/main/uninstall-zapp-config.sh)
+
+```
+# usage
+# In Terminal, run
+sudo sh /path/to/uninstall-zapp-config.sh
+```
+
 ## Initial Setup / Start Here
 Create a directory to house the certificates (and put the certificates in it)
 
