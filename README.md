@@ -52,11 +52,10 @@ Description: _should_ automate most of the documented configurations. (excluding
 ```
 # usage
 # In Terminal, run
-sudo sh /path/to/initial-setup.sh
+sudo sh /path/to/simple-zapp-config.sh
 
 # Optionally, one can define a "custom" directory for the certificates to be housed.
-# Note: It is the fourth parameter because the script was designed to be used with Jamf.
-sudo sh /path/to/initial-setup.sh '' '' '' ~"/cacerts"
+sudo sh /path/to/simple-zapp-config.sh ~"/cacerts"
 ```
 
 ## Initial Setup / Start Here
