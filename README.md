@@ -45,9 +45,9 @@ _Java/Java-related things seem to expect only the Zscaler certificate (DER forma
 
 _In development_
 
-Description: _should_ automate everything documented in the Initial Setup / Start Here section below.
+Description: _should_ automate most of the documented configurations. (excluding: Docker, IntelliJ, gradlew and any of the tools missing documentation.)
 
-[initial-setup.sh](https://github.com/andy-cheatwood/jamf-scripts/blob/master/Zscaler/Development/initial-setup.sh)
+[simple-zapp-config.sh](https://github.com/andy-cheatwood/zscaler/blob/main/simple-zapp-config.sh)
 
 ```
 # usage
