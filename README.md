@@ -235,6 +235,31 @@ ADD ZscalerRootCertificate-2048-SHA256.crt /etc/pki/ca-trust/source/anchors/
 RUN update-ca-trust extract
 ```
 
+Example Dockerfile
+
+1. The Zscaler certificate must be in the same directory as the Dockerfile
+2. Additionally, the certificate must be PEM formatted, **BUT** with a `.crt` extension.
+3. (maybe optional) 
+  - Obtain "Zscaler IP" from [http://ip.zscaler.com/](http://ip.zscaler.com/)
+  - Locate similar IP (CIDR notation) from [https://config.zscaler.com/zscaler.net/cenr](https://config.zscaler.com/zscaler.net/cenr)
+    - E.g. `165.225.8.0/23`
+  - Update Docker network preferences: **Docker > Preferences > Resources > Network > Docker Subnet > 165.225.8.0/23**
+
+```
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ADD ZscalerRootCertificate-2048-SHA256-PEM.crt /usr/local/share/ca-certificates/ZscalerRootCertificate-2048-SHA256-PEM.crt
+RUN apt update && apt upgrade -y
+RUN apt install wget -y && \
+	wget --no-check-certificate http://snapshot.debian.org/archive/debian-archive/20190328T105444Z/debian/pool/main/c/ca-certificates/ca-certificates_20141019%2Bdeb8u3_all.deb && \
+	apt install --allow-downgrades -y ./ca-certificates_20141019+deb8u3_all.deb && \
+	update-ca-certificates
+
+RUN apt install openssl curl -y
+```
+
 The location of the certs as well as the command to update the CA certs is image-dependent. The example above is for Ubuntu / Debian and CentOS based docker images. If you use another distribution flavor, please update this documentation accordingly.
 
 ## IntelliJ Platform
