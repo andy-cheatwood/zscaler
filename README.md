@@ -248,8 +248,6 @@ Example Dockerfile
 ```
 FROM ubuntu:20.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-
 ADD ZscalerRootCertificate-2048-SHA256-PEM.crt /usr/local/share/ca-certificates/ZscalerRootCertificate-2048-SHA256-PEM.crt
 RUN apt update && apt upgrade -y
 RUN apt install wget -y && \
