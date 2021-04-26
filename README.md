@@ -215,7 +215,7 @@ An example which works with ubuntu (and so debian) based images
 
 1. The Zscaler certificate must be in the same directory as the Dockerfile
 2. Additionally, the certificate must be PEM formatted, **BUT** with a `.crt` extension.
-3. (maybe optional) 
+3. (optional) This additional configuration is likely not needed, but is documented here as _something else to try_ if nothing else has worked.
   - Obtain "Zscaler IP" from [http://ip.zscaler.com/](http://ip.zscaler.com/)
   - Locate similar IP (CIDR notation) from [https://config.zscaler.com/zscaler.net/cenr](https://config.zscaler.com/zscaler.net/cenr)
     - E.g. `165.225.8.0/23`
