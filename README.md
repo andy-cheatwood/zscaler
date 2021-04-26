@@ -209,33 +209,9 @@ Description: Configure yarn
 
 Source:
 
-Description: Configure docker image
-
-Depends of docker tool used (Docker Desktop for Mac ? Docker toolbox ? ).
-
-Depending of the images you’re building
-
-The general principle is that Zscaler certificate needs to be pushed inside the image you’re building, for your curl and other https call to go through.
+Description: The general principle is that the Zscaler certificate needs to be pushed inside the image you’re building, for your curl and other https call to go through.
 
 An example which works with ubuntu (and so debian) based images
-
-On your computer
-
-copy ZscalerRootCertificate-2048-SHA256.pem in the docker build folder and rename it as ZscalerRootCertificate-2048-SHA256.crt (if you keep the .pem extension, the following steps will fail)
-
-In the Dockerfile , after the FROM import of the image, copy the certificate into the certificate target of the image you’re running.
-
-```
-ADD ZscalerRootCertificate-2048-SHA256.crt /usr/local/share/ca-certificates/
-RUN update-ca-certificates
-```
-Another example with CentOS images
-```
-ADD ZscalerRootCertificate-2048-SHA256.crt /etc/pki/ca-trust/source/anchors/
-RUN update-ca-trust extract
-```
-
-Example Dockerfile
 
 1. The Zscaler certificate must be in the same directory as the Dockerfile
 2. Additionally, the certificate must be PEM formatted, **BUT** with a `.crt` extension.
@@ -244,6 +220,20 @@ Example Dockerfile
   - Locate similar IP (CIDR notation) from [https://config.zscaler.com/zscaler.net/cenr](https://config.zscaler.com/zscaler.net/cenr)
     - E.g. `165.225.8.0/23`
   - Update Docker network preferences: **Docker > Preferences > Resources > Network > Docker Subnet > 165.225.8.0/23**
+
+### Example Dockerfile
+
+- The PEM formatted Zscaler certificate (with .crt extenstion) is added to /usr/local/share/ca-certificates/ZscalerRootCertificate-2048-SHA256-PEM.crt
+
+- apt is updated and upgraded so that wget can be installed and used to obtain `update-ca-certificates`.
+
+	- _Note: downloading `update-ca-certificates` can be skipped if it is already present/available_
+
+- `update-ca-certificates` is run. In short, it is a program that updates the directory /etc/ssl/certs to hold SSL certificates  and  generates  ca-certificates.crt, a concatenated single-file list of certificates.
+
+	- More information on this command: [http://manpages.ubuntu.com/manpages/xenial/man8/update-ca-certificates.8.html](http://manpages.ubuntu.com/manpages/xenial/man8/update-ca-certificates.8.html)
+
+- Done. Most tools should work as expected after this configuration, though it is possible that additional configuration may be required for certain tools.
 
 ```
 FROM ubuntu:20.04
@@ -258,7 +248,13 @@ RUN apt install wget -y && \
 RUN apt install openssl curl -y
 ```
 
-The location of the certs as well as the command to update the CA certs is image-dependent. The example above is for Ubuntu / Debian and CentOS based docker images. If you use another distribution flavor, please update this documentation accordingly.
+The location of the certs as well as the command to update the CA certs is image-dependent. The example above is for Ubuntu / Debian based docker images. If you use another distribution flavor, please update this documentation accordingly.
+
+Another example with CentOS images
+```
+ADD ZscalerRootCertificate-2048-SHA256.crt /etc/pki/ca-trust/source/anchors/
+RUN update-ca-trust extract
+```
 
 ## IntelliJ Platform
 
