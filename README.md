@@ -262,7 +262,7 @@ Source: https://www.jetbrains.com/help/idea/settings-tools-server-certificates.h
 
 Description: Configure IntelliJ Platform.
 
-I believe it expects only the Zscaler cert (PEM) (aka: ZscalerRootCertificate-2048-SHA256.pem )
+I believe it expects only the Zscaler cert (DER or PEM) (aka: ZscalerRootCertificate-2048-SHA256.crt OR ZscalerRootCertificate-2048-SHA256.pem )
 
 Add the certificate it to the trust store based on the instructions provided in IntelliJ IDEA documentation
 
@@ -296,8 +296,8 @@ Description: Configure gradlew (gradle wrapper)
 
 ```
 # create file named gradle.properties
-systemProp.http.proxyHost=http://localhost
-systemProp.http.proxyPort=9000
+systemProp.http.proxyHost=http://gateway.zscaler.net
+systemProp.http.proxyPort=80
 ```
 
 ## Kubernetes
