@@ -324,6 +324,30 @@ Description: Configure gcloud
 gcloud config set custom_ca_certs_file "${CERT_PATH}"
 ```
 
+## Google Drive (macOS desktop app)
+
+Source: [https://support.google.com/a/answer/7644837?hl=en](https://support.google.com/a/answer/7644837?hl=en)
+
+Description: create a "custom" certificate by concatenating the "built-in" Google Drive roots.pem certificate (located at: /Applications/Google\ Drive.app/Contents/Resources/roots.pem) and the Zscaler certificate (exported as .pem from Keychain access.app) and then setting the TrustedRootCertsFile in Google Drive's setting file (located at: /Library/Preferences/com.google.drivefs.settings) to the path of the "custom" certificate and quitting and relaunching Google Drive.
+
+```
+gdrive_cert="/Applications/Google Drive.app/Contents/Resources/roots.pem"
+gdrive_settings="/Library/Preferences/com.google.drivefs.settings"
+gdrive_zscaler_cert="/Applications/Google Drive.app/Contents/Resources/custom_roots.pem"
+
+# make copy of the built-in gdrive cert (dont want to modify the og, just in case)
+cp "${gdrive_cert}" "${gdrive_zscaler_cert}"
+
+# export Zscaler cert from Keychain and append to the copy of the gdrive built-in cert.
+security find-certificate -c 'Zscaler' -p >> "${gdrive_zscaler_cert}"
+
+# tell gdrive app the location of the custom cert (that now has the Zscaler cert too)
+sudo defaults write "${gdrive_settings}" TrustedRootCertsFile "${gdrive_zscaler_cert}"
+
+# gdrive needs to be quit for changes to take effect. attempt to kill all.
+killall "Google Drive"
+```
+
 ## Terraform
 
 Source:
