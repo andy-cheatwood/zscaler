@@ -252,7 +252,7 @@ The location of the certs as well as the command to update the CA certs is image
 
 Another example with CentOS images
 ```
-ADD ZscalerRootCertificate-2048-SHA256.crt /etc/pki/ca-trust/source/anchors/
+ADD ZscalerRootCertificate-2048-SHA256-PEM.crt /etc/pki/ca-trust/source/anchors/ZscalerRootCertificate-2048-SHA256-PEM.crt
 RUN update-ca-trust extract
 ```
 
